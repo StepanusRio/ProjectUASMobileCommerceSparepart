@@ -6,7 +6,6 @@ public class Product {
     private String imageUrl;
     private Integer hargaJual;
     private Integer stok;
-
     public Product(String id, String name, String imageUrl, Integer hargaJual, Integer stok) {
         this.id = id;
         this.name = name;
@@ -14,7 +13,6 @@ public class Product {
         this.hargaJual = hargaJual;
         this.stok = stok;
     }
-
     public String getId() {
         return id;
     }

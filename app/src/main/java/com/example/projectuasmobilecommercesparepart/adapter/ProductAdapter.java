@@ -17,7 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.projectuasmobilecommercesparepart.R;
+import com.example.projectuasmobilecommercesparepart.model.OrderProduct;
 import com.example.projectuasmobilecommercesparepart.model.Product;
+import com.example.projectuasmobilecommercesparepart.ui.product.ProductFragment;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,11 +29,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     SharedPreferences sharedPreferences;
     Context context;
     List<Product> listProduct;
-    public ProductAdapter(Context context, List<Product> listProduct) {
+    List<OrderProduct> orderProducts = new ArrayList<>();
+    private ProductFragment fragment;
+    public ProductAdapter(Context context,ProductFragment fragment, List<Product> listProduct) {
         this.context = context;
         this.listProduct = listProduct;
-        this.sharedPreferences = context.getSharedPreferences("OrderPreference",context.MODE_PRIVATE);
-        sharedPreferences.contains("orderProduct");
+        this.fragment = fragment;
     }
 
     @NonNull
@@ -54,15 +57,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.AddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<Product> orderProduct = new ArrayList<>();
-                Product order = new Product(listProduct.getId(),listProduct.getName(),listProduct.getImageUrl(),listProduct.getHargaJual(),listProduct.getStok());
-                orderProduct.add(order);
-                Gson gson = new Gson();
-                String jsonText = gson.toJson(orderProduct);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("orderProduct",jsonText);
-                editor.apply();
-                Toast.makeText(context, "Simpan Ke SharedPreferences", Toast.LENGTH_SHORT).show();
+                fragment.addToCart(listProduct);
             }
         });
     }
